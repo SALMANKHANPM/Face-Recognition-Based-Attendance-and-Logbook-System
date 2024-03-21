@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static',filename='css/output.css') }}" rel="stylesheet">
+    <title>Live Video Feed</title>
+</head>
+<body>
+<header class="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-white text-sm py-4 dark:bg-gray-800">
+    <nav class="max-w-[85rem] w-full mx-auto px-4 flex flex-wrap basis-full items-center justify-between"
+         aria-label="Global">
+        <a class="sm:order-1 flex-none text-xl font-semibold dark:text-white" href="#">Swecha AP Logbook</a>
+        {% if session['user'] %}
+            <div class="sm:order-3 flex items-center gap-x-2">
+                <p class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                    {{ session['user'] }}
+                </p>
+                <a href="/signout"
+                   class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                    Logout
+                </a>
+            </div>
+        {% else %}
+            <div class="sm:order-3 flex items-center gap-x-2">
+                <button type="button"
+                        class="sm:hidden hs-collapse-toggle p-2.5 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-gray-700 dark:text-white dark:hover:bg-white/10 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                        data-hs-collapse="#navbar-alignment" aria-controls="navbar-alignment"
+                        aria-label="Toggle navigation">
+                    <svg class="hs-collapse-open:hidden flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg"
+                         width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" x2="21" y1="6" y2="6"/>
+                        <line x1="3" x2="21" y1="12" y2="12"/>
+                        <line x1="3" x2="21" y1="18" y2="18"/>
+                    </svg>
+                    <svg class="hs-collapse-open:block hidden flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg"
+                         width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 6 6 18"/>
+                        <path d="m6 6 12 12"/>
+                    </svg>
+                </button>
+                <a href="/signin"
+                   class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                    Sign in
+                </a>
+            </div>
+        {% endif %}
+    </nav>
+</header>
+<br>
+<br>
+{#<img class="items-center " src="{{ url_for('video_feed') }}" alt="Image Description">#}
+<img class="mx-auto d-block rounded-xl md:mx-2 sm:mx-auto" style="width: 60%; height: 80%;" src="{{ url_for('video_feed') }}" alt="Image Description">
+{#<!-- Hero -->#}
+{#<div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8">#}
+{#    <!-- Grid -->#}
+{# <div class="lg:col-span-4 mt-10 lg:mt-0">#}
+{#            <img class="items-center " src="{{ url_for('video_feed') }}" alt="Image Description">#}
+{#        </div>#}
+{#    <div class="grid lg:grid-cols-7 lg:gap-x-8 xl:gap-x-12 lg:items-center">#}
+{#        <div class="lg:col-span-4 mt-10 lg:mt-0">#}
+{#            <img class="w-full rounded-xl" src="{{ url_for('video_feed') }}" alt="Image Description">#}
+{#        </div>#}
+{#        <div class="lg:col-span-3">#}
+{##}
+{##}
+{#            <div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">#}
+{#                <section class="space-y-6">#}
+{#                    <h5 class="text-xl font-medium text-gray-900 dark:text-white">Welcome, </h5>#}
+{#                    <div>#}
+{#                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name: </label>#}
+{#                        <p id="name"#}
+{#                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white">{{ studentData['Name'] }}</p>#}
+{#                    </div>#}
+{#                    <div>#}
+{#                        <label for="rollno" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your#}
+{#                            Roll Number</label>#}
+{#                        <p id="rollno"#}
+{#                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white">{{ studentData['RollNo'] }}</p>#}
+{#                    </div>#}
+{#                    <div>#}
+{#                        <label for="logintime" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Login#}
+{#                            Time</label>#}
+{#                        <p id="logintime"#}
+{#                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white">{{ session['logintime'] }}</p>#}
+{#                    </div>#}
+{#                    <div>#}
+{#                        <label for="attendance" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Attendance#}
+{#                            Marked</label>#}
+{#                        <p id="attendance"#}
+{#                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white">{{ session['attendance'] }}</p>#}
+{#                    </div>#}
+{#                </section>#}
+{#            </div>#}
+{##}
+{#        </div>#}
+{##}
+{#    </div>#}
+{#    <!-- End Col -->#}
+{##}
+{##}
+{#    <!-- End Col -->#}
+{#</div>#}
+{#<!-- End Grid -->#}
+
+<!-- End Hero -->
+</body>
+</html>
