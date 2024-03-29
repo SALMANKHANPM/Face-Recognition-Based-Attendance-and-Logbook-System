@@ -22,17 +22,13 @@
             </div>
 
             <div class="mt-5">
-                <div class="py-3 flex items-center text-xs text-gray-400 uppercase before:flex-[1_1_0%] before:border-t before:border-gray-200 before:me-6 after:flex-[1_1_0%] after:border-t after:border-gray-200 after:ms-6 dark:text-gray-500 dark:before:border-gray-600 dark:after:border-gray-600">
-                    Or
-                </div>
-
                 <!-- Form -->
                 <form method="POST" action="/signin">
                     <div class="grid gap-y-4">
                         {% if response %}
                             <div class="bg-red-100 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500"
                                  role="alert">
-                                <span class="font-bold">Danger</span> alert! {{ response }}
+                                <span class="font-bold"></span>{{ response }}
                             </div>
                         {% endif %}
                         <!-- Form Group -->
@@ -75,18 +71,6 @@
                             <p class="hidden text-xs text-red-600 mt-2" id="password-error">8+ characters required</p>
                         </div>
                         <!-- End Form Group -->
-
-                        <!-- Checkbox -->
-                        <div class="flex items-center">
-                            <div class="flex">
-                                <input id="remember-me" name="remember-me" type="checkbox"
-                                       class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
-                            </div>
-                            <div class="ms-3">
-                                <label for="remember-me" class="text-sm dark:text-white">Remember me</label>
-                            </div>
-                        </div>
-                        <!-- End Checkbox -->
 
                         <button type="submit"
                                 class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">

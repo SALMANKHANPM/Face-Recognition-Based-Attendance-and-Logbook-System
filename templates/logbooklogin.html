@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{{ url_for('static',filename='css/output.css') }}" rel="stylesheet">
-    <title>Attendance System/Logbook</title>
+    <title>Live Video Feed</title>
 </head>
 <body>
 <header class="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-white text-sm py-4 dark:bg-gray-800">
@@ -43,14 +43,19 @@
                 </button>
                 <a href="/signin"
                    class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                    Sign In
+                    Sign in
                 </a>
             </div>
         {% endif %}
     </nav>
 </header>
+<img class="mx-auto d-block rounded-xl" style="width: 80%; height: 40%;" src="{{ url_for('video_feed', mode=mode) }}"
+     alt="Camera Feed">
 
-
-
+<script>
+    setTimeout(function(){
+        window.location.href = "{{ url_for('logging') }}";
+    }, 10000);
+</script>
 </body>
 </html>

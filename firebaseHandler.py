@@ -26,6 +26,8 @@ def initializeFirebase():
 userDB = initializeFirebase()[1]
 
 
+# Attendance Schema for Firebase
+
 def addUser(stuID, name, branch, email):
     data = {
         stuID: {
@@ -63,7 +65,7 @@ def login(sid, login):
         user_data = {
             'last_Login': login,
             'Login_Log': login_log,
-            'total_Login': total_login +  1,
+            'total_Login': total_login + 1,
             'logout': True
         }
 
@@ -87,3 +89,103 @@ def logout(sid):
         user_ref.child('Students').child(sid).update(user_data)
 
         print(f"User {sid} logged out in the database")
+
+
+def displayMembers():
+    users = userDB.child('Students').get().val()
+    return users.values()
+
+
+# LOGBOOK
+def logbookScehma(sid=None, reason=None, login=None):
+    logbook = {
+        dt.date.today().strftime("%Y-%m-%d"): {
+            sid: {
+                'reasons': [reason],
+                'loginTimes': [login],
+                'logoutTimes': [],
+                'loggedIn': True  # If Logged in, True else False
+            }
+        }
+    }
+
+    for key, value in logbook.items():
+        userDB.child('Logbook').child(key).set(value)
+    print(f"Logbook entry added to database")
+
+
+# logbookScehma('2200080183', 'Login 1', dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+
+def logbookLogin(sid, reason):
+    login_time = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    logbook_entry = userDB.child('Logbook').child(dt.date.today().strftime("%Y-%m-%d")).child(sid).get().val()
+
+    if logbook_entry:
+        # Check if user is already logged in
+        if logbook_entry.get('loggedIn', False):  # Default to False if key does not exist
+            return f"User {sid} is already logged in; new login is not recorded."
+        else:
+            # Check if 'loginTimes' key exists, if not initialize it
+            if 'loginTimes' not in logbook_entry:
+                logbook_entry['loginTimes'] = []
+            if 'reasons' not in logbook_entry:
+                logbook_entry['reasons'] = []
+
+            # Append the login time and reason
+            logbook_entry['loginTimes'].append(login_time)
+            logbook_entry['reasons'].append(reason)
+            logbook_entry['loggedIn'] = True
+
+            # Update the entry in the database
+            userDB.child('Logbook').child(dt.date.today().strftime("%Y-%m-%d")).child(sid).update(logbook_entry)
+            return f"User {sid} logged in at {login_time} for reason: {reason}."
+    else:
+        # If logbook_entry does not exist, create a new entry with the login and reason
+        logbook_entry = {
+            'reasons': [reason],
+            'loginTimes': [login_time],
+            'logoutTimes': [],
+            'loggedIn': True
+        }
+        userDB.child('Logbook').child(dt.date.today().strftime("%Y-%m-%d")).child(sid).set(logbook_entry)
+        return f"Logbook entry created and user {sid} logged in at {login_time} for reason: {reason}."
+
+
+
+def logbookLogout(sid) -> str:
+    logout_time = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    logbook_entry = userDB.child('Logbook').child(dt.date.today().strftime("%Y-%m-%d")).child(sid).get().val()
+
+    if logbook_entry:
+        # Check if user is already logged in
+        if logbook_entry.get('loggedIn', False):  # Default to False if key does not exist
+            # If 'logoutTimes' key doesn't exist, initialize it
+            if 'logoutTimes' not in logbook_entry:
+                logbook_entry['logoutTimes'] = []
+
+            # Append the logout time
+            logbook_entry['logoutTimes'].append(logout_time)
+            logbook_entry['loggedIn'] = False
+
+            # Update the entry in the database
+            userDB.child('Logbook').child(dt.date.today().strftime("%Y-%m-%d")).child(sid).update(logbook_entry)
+            return f"{sid} logged out at {logout_time}."
+        else:
+            return f"{sid} is not logged in; logout not required."
+    else:
+        return f"No logbook entry found"
+
+
+def insertReason(reason) -> None:
+    data = {
+        'msg': reason
+    }
+    userDB.child('Reasons').update(data)
+    print('Reason added to database')
+
+
+def fetchAndDeleteReason():
+    reason = userDB.child('Reasons').get().val()
+    print(reason['msg'])
+    userDB.child('Reasons').remove()
+    return reason['msg']

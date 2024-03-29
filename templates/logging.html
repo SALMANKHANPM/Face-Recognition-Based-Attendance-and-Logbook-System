@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static',filename='css/output.css') }}" rel="stylesheet">
+    <title>Attendance System/Logbook</title>
+</head>
+<body>
+<header class="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-white text-sm py-4 dark:bg-gray-800">
+    <nav class="max-w-[85rem] w-full mx-auto px-4 flex flex-wrap basis-full items-center justify-between"
+         aria-label="Global">
+        <a class="sm:order-1 flex-none text-xl font-semibold dark:text-white" href="#">Swecha AP Logbook</a>
+        {% if session['user'] %}
+            <div class="sm:order-3 flex items-center gap-x-2">
+                <p class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                    {{ session['user'] }}
+                </p>
+                <a href="/signout"
+                   class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                    Logout
+                </a>
+            </div>
+        {% else %}
+            <div class="sm:order-3 flex items-center gap-x-2">
+                <button type="button"
+                        class="sm:hidden hs-collapse-toggle p-2.5 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-gray-700 dark:text-white dark:hover:bg-white/10 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                        data-hs-collapse="#navbar-alignment" aria-controls="navbar-alignment"
+                        aria-label="Toggle navigation">
+                    <svg class="hs-collapse-open:hidden flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg"
+                         width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" x2="21" y1="6" y2="6"/>
+                        <line x1="3" x2="21" y1="12" y2="12"/>
+                        <line x1="3" x2="21" y1="18" y2="18"/>
+                    </svg>
+                    <svg class="hs-collapse-open:block hidden flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg"
+                         width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 6 6 18"/>
+                        <path d="m6 6 12 12"/>
+                    </svg>
+                </button>
+                <a href="/signin"
+                   class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                    Sign In
+                </a>
+            </div>
+        {% endif %}
+    </nav>
+</header>
+{#<section>#}
+{#    #}
+{#    <!-- Card Blog -->#}
+{#    <div class="flex justify-center items-center h-screen sm:px-6 lg:px-8 lg:py-14 mx-auto">#}
+{#        <!-- Grid -->#}
+{#        <div class="grid sm:grid-cols-2 whitespace-break-spaces lg:grid-cols-2 gap-6">#}
+{##}
+{#            <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">#}
+{#                <a href="/logging/reason">#}
+{#                    <img class="rounded-t-lg object-cover" src="/static/images/login.svg" alt=""/>#}
+{#                </a>#}
+{#                <div class=" flex justify-center items-center">#}
+{#                    <a href="/logging/"#}
+{#                       class="inline-flex  items-center px-3 py-2 text-xl font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">#}
+{#                        Login#}
+{#                        <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true"#}
+{#                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">#}
+{#                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"#}
+{#                                  d="M1 5h12m0 0L9 1m4 4L9 9"/>#}
+{#                        </svg>#}
+{#                    </a>#}
+{##}
+{#                    <button onclick="window.location.href='/logging/reason';" type="button"#}
+{#                            class="px-5 py-3  font-medium text-center inline-flex items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">#}
+{##}
+{#                        Login&nbsp&nbsp#}
+{#                       <img width="25" height="25" src="/static/images/loginicon.png" alt="login-rounded-right"/>#}
+{#                    </button>#}
+{#                </div>#}
+{#            </div>#}
+{##}
+{#            <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">#}
+{#                <a href="/logging/logout">#}
+{#                    <img class="rounded-t-lg object-cover" src="/static/images/logout.svg" height="1000" width="1000"#}
+{#                         alt=""/>#}
+{#                </a>#}
+{#                <div class="p-5 flex justify-center items-center">#}
+{##}
+{#<button onclick="window.location.href='/logging/logout';" type="button"#}
+{#        class="px-5 py-3 text-xl font-medium text-center  inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">#}
+{##}
+{#    Logout&nbsp&nbsp#}
+{#    <img width="25" height="25" src="/static/images/logouticon.png" alt="logout-rounded-right"/>#}
+{#</button>#}
+{#                </div>#}
+{#            </div>#}
+{##}
+{#        </div>#}
+{#    </div>#}
+{#    <!-- End Card Blog -->#}
+{##}
+{#    <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">#}
+{#        <!-- Grid -->#}
+{#        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">#}
+{##}
+{#            <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">#}
+{#                <a href="/attendancelogbook">#}
+{#                    <img class="rounded-t-lg object-cover" src="/static/images/logbook.jpg" alt=""/>#}
+{#                </a>#}
+{#                <div class="p-5">#}
+{#                    <a href="/attendancelogbook">#}
+{#                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Attendance Register</h5>#}
+{#                    </a>#}
+{#                    <a href="/attendancelogbook"#}
+{#                       class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">#}
+{#                        Click here to view#}
+{#                        <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true"#}
+{#                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">#}
+{#                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"#}
+{#                                  d="M1 5h12m0 0L9 1m4 4L9 9"/>#}
+{#                        </svg>#}
+{#                    </a>#}
+{#                </div>#}
+{#            </div>#}
+{##}
+{#                        <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">#}
+{#                <a href="/logging">#}
+{#                    <img class="rounded-t-lg object-cover" src="/static/images/logbook.jpg" alt=""/>#}
+{#                </a>#}
+{#                <div class="p-5">#}
+{#                    <a href="/logging">#}
+{#                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Logbook System</h5>#}
+{#                    </a>#}
+{#                    <a href="/logging"#}
+{#                       class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">#}
+{#                        Click here to view#}
+{#                        <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true"#}
+{#                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">#}
+{#                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"#}
+{#                                  d="M1 5h12m0 0L9 1m4 4L9 9"/>#}
+{#                        </svg>#}
+{#                    </a>#}
+{#                </div>#}
+{#            </div>#}
+{##}
+{##}
+{#      </div>#}
+{#        <!-- End Grid#}
+{#         <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>#}
+{##}
+{#        -->#}
+{#    </div>#}
+{##}
+{#</section>#}
+
+<div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+        <!-- Grid -->
+        <div class="grid grid-cols-2  items-center sm:grid-cols-2 lg:grid-cols-2 gap-6">
+
+            <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <a href="/logging/reason">
+                    <img class="rounded-t-lg object-cover" src="/static/images/logbook.jpg" alt=""/>
+                </a>
+                <div class="p-5">
+                    <a href="/logging/reason">
+                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Login</h5>
+                    </a>
+                    <a href="/logging/reason"
+                       class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Click here to login
+                        <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+                        <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <a href="/logging/logout">
+                    <img class="rounded-t-lg object-cover" src="/static/images/logbook.jpg" alt=""/>
+                </a>
+                <div class="p-5">
+                    <a href="/logging/logout">
+                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Logout</h5>
+                    </a>
+                    <a href="/logging/logout"
+                       class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Click here to Logout
+                        <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+<script src="{{ url_for('serve_preline_js') }}"></script>
+</html>
